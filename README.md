@@ -8,7 +8,7 @@ Huggingface Link: https://huggingface.co/datasets/CG-Bench/CG-Bench
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/cg1177/CG-Bench.git
+git clone https://github.com/CG-Bench/CG-Bench.git
 cd CG-Bench
 ```
 
