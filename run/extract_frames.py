@@ -102,11 +102,13 @@ def main():
 
     args = parse_args()
 
-    video_meta_info_path = './video_meta_info.json'
+    video_meta_info_path = './run/video_meta_info.json'
     cgbench_json_path = './cgbench_mini.json'
     cg_videos_path = './cg_videos_720p/'
     output_images_path = './cg_images/'
 
+    os.makedirs(output_images_path, exist_ok=True)
+    
     with open(video_meta_info_path, 'r', encoding='utf-8') as f:
         video_meta_info = json.load(f)
 
