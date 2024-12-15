@@ -4,6 +4,10 @@ This repository contains the implementation of CG-Bench. Follow the steps below 
 Project Website: https://cg-bench.github.io/leaderboard/  
 Huggingface Link: https://huggingface.co/datasets/CG-Bench/CG-Bench
 
+## News
+
+- **[2024-12-15]** 🚀 We released CG-Bench dataset and leaderboard! [Dataset](link) | [Leaderboard](link)
+
 ## Setup and Data Preparation
 
 1. Clone the repository:
@@ -33,9 +37,14 @@ python run/save_as_jsons.py
 bash run.sh clue_acc gpt-4o 2024-08-06 32 true true true # (or long_acc, miou, open ...) 
 ```
 
+6. If the frames are already extracted, you can directly run:
+```bash
+python run/run_api.py --task_mode clue_acc --model_name gpt-4o --model_size 2024-08-06 --num_segment 32 --sub true --sub_time true --frame_time true
+```
+
 ## View Results
 
-6. Check the test results:
+7. Check the test results:
 ```bash
 python stat_with_key.py
 ```
