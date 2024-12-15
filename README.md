@@ -6,7 +6,7 @@ Huggingface Link: https://huggingface.co/datasets/CG-Bench/CG-Bench
 
 ## News
 
-- **[2024-12-15]** 🚀 We released CG-Bench dataset and leaderboard! [Dataset]([link](https://github.com/CG-Bench/CG-Bench)) | [Leaderboard]([link](https://cg-bench.github.io/leaderboard/))
+- **[2024-12-15]** 🚀 We released CG-Bench dataset and leaderboard! [Dataset](https://github.com/CG-Bench/CG-Bench) | [Leaderboard](https://cg-bench.github.io/leaderboard/)
 
 ## Setup and Data Preparation
 
