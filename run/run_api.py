@@ -139,7 +139,7 @@ def get_args():
 
     parser = argparse.ArgumentParser(description='run api')
 
-    parser.add_argument('--num_threads', type=int, required=True,
+    parser.add_argument('--num_threads', type=int, default=32,
                     help='Number of segments')
 
 
@@ -189,7 +189,7 @@ def get_args():
             parser.error('eval_open_step_1 and eval_open_step_2 require open_model_name, '
                         'open_model_size, and open_num_segment')
 
-    with open("./video_meta_info.json", "r") as f:
+    with open("./run/video_meta_info.json", "r") as f:
         args.vdict = json.load(f)
 
     if args.task_mode == "clue_acc":
