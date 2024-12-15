@@ -30,7 +30,7 @@ python run/save_as_jsons.py
 
 5. Run the test script:
 ```bash
-bash run.sh clue_acc gpt-4o 2024-08-06 32 true true true
+bash run.sh clue_acc gpt-4o 2024-08-06 32 true true true # (or long_acc, miou, open ...) 
 ```
 
 ## View Results
