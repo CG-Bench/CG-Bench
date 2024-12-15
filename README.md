@@ -1,7 +1,7 @@
 # CG-Bench
 
 This repository contains the implementation of CG-Bench. Follow the steps below to set up and run the benchmark.  
-Project Website: https://chenguo.netlify.app/projects/cg_bench/  
+Project Website: https://cg-bench.github.io/leaderboard/  
 Huggingface Link: https://huggingface.co/datasets/CG-Bench/CG-Bench
 
 ## Setup and Data Preparation
