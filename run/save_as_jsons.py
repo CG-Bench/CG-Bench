@@ -7,6 +7,8 @@ input_file_path = "./cgbench_mini.json"
 
 output_dir = "./cg_annotations/"
 
+os.makedirs(output_dir, exist_ok=True)
+
 with open(input_file_path, 'r', encoding='utf-8') as f:
     data = json.load(f)
 

@@ -86,7 +86,7 @@ def load_json(json_file):
 def save_json(anno, json_file):
 
     with open(json_file, "w") as f:
-        
+
         json.dump(anno, f, indent=4)
 
 
@@ -107,15 +107,15 @@ def merge_intervals(intervals):
     """
     if not intervals:
         return []
-    
+
     # Sort intervals by start time
     intervals.sort(key=lambda x: x[0])
-    
+
     merged = [intervals[0]]
-    
+
     for current in intervals[1:]:
         last_merged = merged[-1]
-        
+
         # Check if there is an overlap
         if current[0] <= last_merged[1]:
             # Merge the current interval with the last one
@@ -123,7 +123,7 @@ def merge_intervals(intervals):
         else:
             # No overlap, add current interval
             merged.append(current)
-    
+
     return merged
 
 def calculate_intervals_iou(intervals1, intervals2):
@@ -134,14 +134,14 @@ def calculate_intervals_iou(intervals1, intervals2):
     # Merge overlapping intervals in both lists
     merged1 = merge_intervals(intervals1)
     merged2 = merge_intervals(intervals2)
-    
+
     # Calculate total length of intervals for both lists
     def total_length(merged_intervals):
         return sum(end - start for start, end in merged_intervals)
-    
+
     length1 = total_length(merged1)
     length2 = total_length(merged2)
-    
+
     # Calculate intersection length
     intersection_length = 0
     for interval1 in merged1:
@@ -268,22 +268,22 @@ def get_frame_times(fps, frame_indices):
 
 def get_json_files(args):
     json_files = []
-    
+
     print(args.anno_root)
 
     for root, _, files in os.walk(args.anno_root):
         for file in files:
             if not file.endswith('.json'):
                 continue
-                
+
             json_path = os.path.join(root, file)
 
             try:
                 with open(json_path, 'r', encoding='utf-8') as f:
                     anno = json.load(f)
-                
+
                 result_key = f"{args.task_mode}_{args.model_name}_{args.model_size}_{args.num_segment}_{args.sub}_{args.sub_time}_{args.frame_time}"
-                
+
                 # print(result_key)
 
                 # exit()
@@ -294,38 +294,38 @@ def get_json_files(args):
                         needs_evaluation = True
                     elif anno["results"][result_key]["version"] != anno["version"]:
                         needs_evaluation = True
-                
+
                 # eval_open_step_1
                 elif args.task_mode == 'eval_open_step_1':
                     open_key = f"open_{args.open_model_name}_{args.open_model_size}_{args.open_num_segment}_{args.open_sub}_{args.open_sub_time}_{args.open_frame_time}"
-                    
+
                     if open_key in anno["results"]:
                         if "step_1" not in anno["results"][open_key]:
                             needs_evaluation = True
                         elif anno["results"][open_key]["step_1"]["version"] != anno["results"][open_key]["version"]:
                             needs_evaluation = True
-                
+
                 # eval_open_step_2
                 elif args.task_mode == 'eval_open_step_2':
                     open_key = f"open_{args.open_model_name}_{args.open_model_size}_{args.open_num_segment}_{args.open_sub}_{args.open_sub_time}_{args.open_frame_time}"
-                    
+
                     if open_key in anno["results"] and "step_1" in anno["results"][open_key]:
                         if "step_2" not in anno["results"][open_key]:
                             needs_evaluation = True
                         elif anno["results"][open_key]["step_2"]["version"] != anno["results"][open_key]["step_1"]["version"]:
                             needs_evaluation = True
-                
+
                 if needs_evaluation:
                     json_files.append(json_path)
-                    
+
             except Exception as e:
                 print(f"Error processing {json_path}: {str(e)}")
                 continue
-    
+
     return json_files
 
 def get_prompt(args, anno, frame_indices):
-    
+
     prompt = ""
 
     if args.sub:
@@ -353,11 +353,11 @@ def get_prompt(args, anno, frame_indices):
         open_key = f"open_{args.open_model_name}_{args.open_model_size}_{args.open_num_segment}_{args.open_sub}_{args.open_sub_time}_{args.open_frame_time}"
         prompt += f"The model's prediction is \'{anno['results'][open_key]['result']}\'\n\n"
 
-    return prompt    
+    return prompt
 
 def save_result(args, anno, result, json_file):
 
-    if args.task_mode in ["long_acc", "clue_acc", "miou", "open"]:    
+    if args.task_mode in ["long_acc", "clue_acc", "miou", "open"]:
         result_key = f"{args.task_mode}_{args.model_name}_{args.model_size}_{args.num_segment}_{args.sub}_{args.sub_time}_{args.frame_time}"
         if result_key not in anno["results"]:
             anno["results"][result_key] = {}
@@ -376,7 +376,7 @@ def save_result(args, anno, result, json_file):
             "version": anno["results"][open_key]["version"],
             "result": result
         })
-        if result in [0, 1]:            
+        if result in [0, 1]:
             if "step_2" not in anno["results"][open_key]:
                 anno["results"][open_key]["step_2"] = {}
             anno["results"][open_key]["step_2"].update({
@@ -448,5 +448,5 @@ def post_process(args, anno, response):
                     result = int(match.group())
             elif args.task_mode == "open":
                 result = response
-        
+
     return result

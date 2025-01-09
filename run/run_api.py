@@ -78,13 +78,13 @@ def process_single_file(args, json_file):
         prompt = get_prompt(args, anno, frame_indices)
 
         sys_prompt = SYS[args.task_mode]
-        
+
         response = inference(args, sys_prompt, prompt, image_paths)
         result = post_process(args, anno, response)
-        
+
         if result is not None:
             save_result(args, anno, result, json_file)
-            
+
         return json_file, True
     except Exception as e:
         logging.error(f"Error processing {json_file}: {str(e)}")
@@ -98,7 +98,7 @@ def main(args):
         format='%(asctime)s - %(levelname)s - %(message)s',
         filename='processing.log'
     )
-    
+
     json_files = get_json_files(args)
 
     print(len(json_files))
@@ -111,13 +111,13 @@ def main(args):
     with ThreadPoolExecutor(max_workers=args.num_threads) as executor:
 
         future_to_file = {
-            executor.submit(process_single_file, args, json_file): json_file 
+            executor.submit(process_single_file, args, json_file): json_file
             for json_file in json_files
         }
 
         successful = 0
         failed = 0
-        
+
         with tqdm(total=total_files, desc="Processing files") as pbar:
             for future in as_completed(future_to_file):
                 json_file = future_to_file[future]
@@ -151,10 +151,10 @@ def get_args():
                     help='Model name')
 
     parser.add_argument('--task_mode', type=str, required=True,
-                       choices=['long_acc', 'clue_acc', 'miou', 'open', 
+                       choices=['long_acc', 'clue_acc', 'miou', 'open',
                                'eval_open_step_1', 'eval_open_step_2'],
                        help='Task mode selection')
-    
+
     parser.add_argument('--model_name', type=str, required=True,
                        help='Model name')
     parser.add_argument('--model_size', type=str, required=True,
@@ -167,7 +167,7 @@ def get_args():
                        help='Sub time parameter (true/false)')
     parser.add_argument('--frame_time', type=str2bool, default=True,
                        help='Frame time parameter (true/false)')
-    
+
     parser.add_argument('--open_model_name', type=str,
                        help='Open model name')
     parser.add_argument('--open_model_size', type=str,
@@ -180,9 +180,9 @@ def get_args():
                        help='Open sub time parameter (true/false)')
     parser.add_argument('--open_frame_time', type=str2bool, default=True,
                        help='Open frame time parameter (true/false)')
-    
+
     args = parser.parse_args()
-    
+
 
     if args.task_mode in ['eval_open_step_1', 'eval_open_step_2']:
         if not all([args.open_model_name, args.open_model_size, args.open_num_segment]):
@@ -202,13 +202,13 @@ def get_args():
 
     if args.task_mode == "eval_open_step_2":
         args.sub = True
-        args.frame_time = True        
+        args.frame_time = True
 
     if not args.sub:
         args.sub_time = False
 
     return args
-    
+
 
 if __name__ == "__main__":
     args = get_args()
