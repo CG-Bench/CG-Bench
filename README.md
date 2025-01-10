@@ -6,6 +6,7 @@ Huggingface Link: https://huggingface.co/datasets/CG-Bench/CG-Bench
 
 ## News
 
+- **[2025-1-10]** 🌟 You can now test the CG-Bench dataset in [**VLMEvalKit**](https://github.com/open-compass/VLMEvalKit/tree/main)!  
 - **[2024-12-15]** 🚀 We released CG-Bench dataset and leaderboard! [Dataset](https://huggingface.co/datasets/CG-Bench/CG-Bench) | [Leaderboard](https://cg-bench.github.io/leaderboard/)
 
 ## Setup and Data Preparation
